@@ -11,16 +11,14 @@ import ComboBox from './ComboBox';
  * yarn docs:dev && open http://0.0.0.0:3003/components/phase1/
  */
 export default function LandingPage() {
+  const countryNameArray = countries.map((country) => country.label)
   return (
     <BrandingRoot>
       <Container>
         <Typography component="h1" variant="h2" sx={{ mt: 8 }}>
-          First phase
+          Search for your Country
         </Typography>
-        <ComboBox />
-        <Typography variant="body3">
-          <pre>{JSON.stringify(countries, null, 2)}</pre>
-        </Typography>
+        <ComboBox strings={countryNameArray} />
       </Container>
     </BrandingRoot>
   );
