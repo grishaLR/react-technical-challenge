@@ -21,11 +21,12 @@ const resultStyle = {
   width: '400px',
   height: '400px',
   overflow: 'hidden',
-  overflowY: 'auto',
+  // overflowY: 'auto',
   boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
 }
 
 const itemStyle = {
+  textDecoration: 'none',
   width: '100%',
   height: '50px',
   marginLeft: '10px',
@@ -66,7 +67,9 @@ const ComboBox: React.FC<Props> = ( { strings }) => {
       <div style={!inputEntered.length ? {display: 'none'} : resultStyle} >
         {filteredData.map((country, key) =>{
           return (
-            <p style={itemStyle} key={key}>{country}</p>
+            <div className='item' >
+              <a href='www.someurl.io' style={itemStyle} key={key}>{country}</a>
+            </div>
           )
         })}
       </div>
