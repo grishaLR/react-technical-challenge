@@ -22,6 +22,7 @@ export function createFilterOptions(config = {}) {
 
   return (options, { inputValue, getOptionLabel }) => {
     let input = trim ? inputValue.trim() : inputValue;
+
     if (ignoreCase) {
       input = input.toLowerCase();
     }
@@ -30,6 +31,7 @@ export function createFilterOptions(config = {}) {
     }
 
     const filteredOptions = options.filter((option) => {
+
       let candidate = (stringify || getOptionLabel)(option);
       if (ignoreCase) {
         candidate = candidate.toLowerCase();
@@ -184,7 +186,7 @@ export default function useAutocomplete(props) {
 
   const popupOpen = open;
 
-  const filteredOptions = popupOpen
+  const filteredOptions = React.useMemo(()=> popupOpen
     ? filterOptions(
         options.filter((option) => {
           if (
@@ -204,7 +206,7 @@ export default function useAutocomplete(props) {
           getOptionLabel,
         },
       )
-    : [];
+    : [],[filterOptions]);
 
   const focusTag = useEventCallback((tagToFocus) => {
     if (tagToFocus === -1) {
@@ -328,6 +330,8 @@ export default function useAutocomplete(props) {
     if (onHighlightChange) {
       onHighlightChange(event, index === -1 ? null : filteredOptions[index], reason);
     }
+
+    
 
     if (!listboxRef.current) {
       return;
@@ -487,9 +491,9 @@ export default function useAutocomplete(props) {
         return;
       }
 
-      const itemIndex = findIndex(filteredOptions, (optionItem) =>
-        getOptionSelected(optionItem, valueItem),
-      );
+      const itemIndex = findIndex(filteredOptions, (optionItem) =>{
+        return getOptionSelected(optionItem, valueItem)
+      });
       if (itemIndex === -1) {
         changeHighlightedIndex({ diff: 'reset' });
       } else {
@@ -535,7 +539,7 @@ export default function useAutocomplete(props) {
 
   React.useEffect(() => {
     syncHighlightedIndex();
-  }, [syncHighlightedIndex]);
+  }, [syncHighlightedIndex, filteredOptions]);
 
   const selectNewValue = (event, option, reasonProp = 'select-option', origin = 'options') => {
     let reason = reasonProp;
